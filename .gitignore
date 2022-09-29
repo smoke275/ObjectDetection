@@ -2,10 +2,8 @@
 !/.gitignore
 data
 animation.gif
-<<<<<<< HEAD
 experiments/pretrained_model
 experiments/reference
-=======
-experiments/
-exp/
->>>>>>> 5d18ca0... First Commit
+!/experiments/reference/pipeline_new.config
+
+
