@@ -1,9 +1,2 @@
 .*
 !/.gitignore
-data
-animation.gif
-experiments/pretrained_model
-experiments/reference
-!/experiments/reference/pipeline_new.config
-
-
