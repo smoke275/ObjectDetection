@@ -58,47 +58,36 @@ You are downloading 100 files (unless you changed the `size` parameter) so be pa
 ### Exploring dataset
 
 
-| ![](images/ground_truth1.png)  |  ![](images/ground_truth2.png) |
+| ![](images/download1.png)  |  ![](images/download2.png) |
 :-------------------------:|:-------------------------:
-| ![](images/ground_truth3.png)  |  ![](images/ground_truth4.png) |
-| ![](images/ground_truth5.png)  |  ![](images/ground_truth6.png) |
+| ![](images/download3.png)  |  ![](images/download4.png) |
+| ![](images/download5.png)  |  ![](images/download6.png) |
 
 
 ### Analysis
 
 
-I have used random 30k samples from the dataset to analyse.
+I have used random 5k samples from the dataset to analyse. I was confused about the file structure so in the beginning I ended up sampling from the train dataset.
 
-1. Dataset is very skewed in terms of number of samples available for each class. Class 1 of cars have maximum samples. Class 4 of cyclists is very rare in the dataset, followed by Class 2 of pedestrians.
+```
+# Finding number of objects in each image
 
-    <img src="images/class_count.png" width=50% height=50%>
+labels = {1:0, 2:0, 4:0}
+labels_dist={1:[], 2:[], 4:[]}
 
-
-2. Distribution of object **center** in image: Image is split into 10*10 grid
-
-   <img src="images/object_center_dist1.png" width=49% height=49%> <img src="images/object_center_dist2.png" width=49% height=49%>
-   <img src="images/object_center_dist4.png" width=49% height=49%>
-
-This analysis show that maximum object occur in the center, fewer on the sides, and no/less objects at the top/bottom of image. The dataset is little skewed horizontally, so, random horizontal flip should help.
-
-
-
-3. Distribution of object bounding box in image: This shows how many times an object's bounding box is present at that location. Image is split into 10*10 grid
-
-   <img src="images/object_bbox_dist1.png" width=49% height=49%> <img src="images/object_bbox_dist2.png" width=49% height=49%>
-   <img src="images/object_bbox_dist4.png" width=49% height=49%>
+for batch in dataset.take(20000):
+    try:
+        count = {1:0, 2:0, 4:0}
+        for i in batch['groundtruth_classes'].numpy():
+            labels[i] += 1
+            labels_dist[i].append(count[i])
+    except Exception as err:
+        print(err)
 
 
-This and previous distribution show that although object center is usually in the center of image, but it's bounding boxes sometimes cover corners of the image. Since the dist shows high values in center, it also suggests that most bounding boxes cover center of the image.
-
-
-4. Distribution of class frequency in an image
-
-   ![Class frequency distribution](images/class_freq_dist.png)
-
-
-5. Also, surfing through the dataset suggests fewer samples in darker/foggy conditions compared to day/clear conditions. So, random brightness, contrast and color shift should help.
-
+labels
+{1: 345708, 2: 97358, 4: 2491}
+```
 
 ### Create the training - validation splits
 
@@ -151,11 +140,10 @@ Explored the Object Detection API and applied many different augmentations
 Used various augmentation strategies:
 1. random_horizontal_flip
 2. random_crop_image
-3. random_adjust_brightness
+3. random_rgb_to_gray
 4. random_adjust_contrast
-5. random_adjust_hue
-6. random_adjust_saturation
-7. random_distort_color
+5. random_jitter_boxes
+6. random_adjust_brightness
 
 
 | ![](images/augmented1.png)  |  ![](images/augmented3.png) |
