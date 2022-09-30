@@ -89,6 +89,8 @@ labels
 {1: 345708, 2: 97358, 4: 2491}
 ```
 
+It can be seen from the data that the data is significantly skewed towards cars and pedestrians. But the data doesn't have a huge number of cyclists.
+
 ### Create the training - validation splits
 
 Split the data into 87% train, 10% validation and 3% test.
@@ -135,7 +137,7 @@ To monitor the training, you can launch a tensorboard instance by running `pytho
 
 ### Augmentation
 
-Explored the Object Detection API and applied many different augmentations
+Explored the Object Detection API and applied many different augmentations. This is applied to allow the neural network to investigate more samples of data. Because augmentation changes the pixel dimension and values, the neural net is essentially looking at new pictures which allows it to learn more about cyclists and pedestrians.
 
 Used various augmentation strategies:
 1. random_horizontal_flip
@@ -159,9 +161,14 @@ I experimented with a lot of combinations -
 2.batch_size 4, iterations - 4000, learning rate - 0.04
 3.batch_size 4, iterations - 3000, learning rate - 3e-4
 
+A high learning rate was detrimental to convergence because it kept bouncing around the local minima. Hence, when using learning rate of 0.04 the total loss kept varying between 2.3 and 3.4 even after 5000 iterations.
+
+Training was stopped after 3000 iterations because between 3000 to 4000 iterations the total loss was still in the same range of 0.6-0.7. So if further training was done, it would lead to overfitting.
+
 Used SGD with momentum. Rate decay: Cosine anealing.
 
 This is one worked best with the resource crunch.
+
 
 
 ![Loss](images/tensorflow.png)
