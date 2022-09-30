@@ -146,30 +146,26 @@ Used various augmentation strategies:
 6. random_adjust_brightness
 
 
-| ![](images/augmented1.png)  |  ![](images/augmented3.png) |
+| ![](images/augment1.png)  |  ![](images/augment2.png) |
 :-------------------------:|:-------------------------:
-| ![](images/augmented3.png)  |  ![](images/augmented4.png) |
-| ![](images/augmented5.png)  |  ![](images/augmented6.png) |
+| ![](images/augment3.png)  |  ![](images/augment4.png) |
 
 
 
 ### Experiment
 
-Used SGD with momentum. Rate decay: Cosine anealing. Changed warmup learning rate to 5e-4, warmup steps to 300 and total steps to 5000 to get the desired learning rate function.
+I experimented with a lot of combinations -
+1.batch_size 8, iterations - 5000, learning rate - 0.04
+2.batch_size 4, iterations - 4000, learning rate - 0.04
+3.batch_size 4, iterations - 3000, learning rate - 3e-4
 
-Stopped training at 3k steps just before our model would start overfitting. Although, training loss is still decreasing, but validation loss and mAP have plateaued. So, further training would overfit the dataset.
+Used SGD with momentum. Rate decay: Cosine anealing.
 
-
-![Loss](images/loss.png)
-
-
-![mAP](images/AP.png)
-
-
-![AR](images/AR.png)
+This is one worked best with the resource crunch.
 
 
-<img src="images/learning_rate.png" width=50% height=50%>
+![Loss](images/tensorflow.png)
+
 
 
 
