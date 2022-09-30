@@ -1,4 +1,4 @@
-# Object Detection in an Urban Environment 
+# Object Detection in an Urban Environment
 
 ## Data
 
@@ -140,7 +140,7 @@ python inference_video.py --labelmap_path label_map.pbtxt --model_path experimen
 
 ## Test results
 
-![](animation.gif)
+![](images/animation.gif)
 
 
 
